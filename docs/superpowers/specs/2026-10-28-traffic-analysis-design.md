@@ -1,21 +1,23 @@
 # Traffic Analysis: Phase-One Design
 
 Date: 2026-10-28
-Status: Approved by the user on 2026-10-28 ("LGTM"). Updated the same day: the ML developer wants to fine-tune a pretrained model. Specific model, data, and training settings remain deferred.
+Status: Approved by the user on 2026-10-28 ("LGTM"). Updated the same day: Puntawit wants to fine-tune a pretrained model, and the shared plan identifies both developers as NoneTP and Puntawit. Specific model, data, and training settings remain deferred.
 
 ## Intent and context
 
 Build a local traffic-analysis application as a shared internship portfolio project.
-Taranon is targeting pipeline engineering at Oxygen AI; the other developer is
+NoneTP (Taranon) is targeting pipeline engineering at Oxygen AI; Puntawit is
 targeting an ML role. The available internship brochure does not establish a
 specific employer technology stack or assessment rubric.
 
 The project should demonstrate individual engineering decisions, measurable
-results, and an integrated working system. Taranon's stated availability is
+results, and an integrated working system. NoneTP's stated availability is
 6-7 hours per week over roughly 2-3 weeks before finals, interpreted as about
-12-21 hours of his time. The teammate's availability and hardware are unknown.
-Taranon has an RTX 3060 laptop; GPU memory and actual throughput are unverified.
-The repository currently contains only a title in README.md.
+12-21 hours of his time. Puntawit's availability and hardware are unknown.
+NoneTP has an RTX 3060 laptop; GPU memory and actual throughput are unverified.
+At initial discovery, the repository contained only a title in README.md. The
+[central team plan](../plans/2026-10-28-traffic-analysis.md) now tracks both
+developers' tasks and joint checkpoints, with separate detailed workstream plans.
 
 ## Agreed scope
 
@@ -81,7 +83,7 @@ preferences.
 | Responsibility | Proposed choice |
 | --- | --- |
 | Video ingestion and processing | Python and OpenCV |
-| Model execution and tracking | Teammate's choice behind a Python adapter |
+| Model execution and tracking | Puntawit's choice behind a Python adapter |
 | Boundary validation | Pydantic |
 | Durable storage and aggregation | PostgreSQL and Psycopg |
 | Read API | FastAPI |
@@ -99,16 +101,17 @@ selecting exact versions in this design.
 
 Proposed ownership:
 
-- Taranon: source/run metadata, validated data boundaries, persistence, API,
+- NoneTP: source/run metadata, validated data boundaries, persistence, API,
   dashboard integration, logs, repeatability, and local setup.
-- ML developer: dataset investigation, class definitions, detector/tracker
+- Puntawit: dataset investigation, class definitions, detector/tracker
   selection, pretrained baseline, fine-tuning, evaluation, and model adapter.
 - Joint: crossing-count behavior, representative demo footage, end-to-end
   validation, and documentation of individual contributions.
 
-The tracker and counter may initially live together in the processing package;
-their ownership should be agreed with the teammate. Track identities must remain
-stable within a run. The pipeline may be developed using clearly labeled fixture
+Puntawit owns the detector/tracker adapter; NoneTP owns the video reader, media
+timestamps, and line-crossing counter, with Puntawit reviewing counting behavior.
+Both agree class policy and interface changes together. Track identities must
+remain stable within a run. The pipeline may be developed using clearly labeled fixture
 events while the actual ML adapter is undecided.
 
 The proposed model adapter accepts video frames and returns detections with a
@@ -255,12 +258,12 @@ service startup. GPU processing is launched separately from Compose initially.
 - Compare counts against manual counts on a small representative held-out clip.
   Report errors by class. Label fixture checks and model evaluation separately.
 
-Model quality targets are intentionally not invented here. The teammate must
+Model quality targets are intentionally not invented here. Puntawit must
 help select the dataset, evaluation split, metrics, and acceptable quality before
 the full project's model acceptance criteria can be finalized. A fixture-only
 pipeline does not establish model readiness.
 
-## Decisions deferred to the ML developer
+## Decisions led by Puntawit
 
 - Dataset and video selection, including whether it has explicit pickup labels
   and sufficient examples of all four classes.
